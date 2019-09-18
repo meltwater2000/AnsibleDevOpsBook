@@ -1,0 +1,6 @@
+---
+# first-test.yml file
+- hosts: all
+  gather_facts: no
+  roles:
+    - first-test

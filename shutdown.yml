@@ -1,0 +1,6 @@
+---
+# shutdown.yml file
+- hosts: all
+  gather_facts: no
+  roles:
+    - shutdown

@@ -1,0 +1,10 @@
+---
+# roles/shutdown/tasks/main.yml
+- name: "Shutdown {{ host }}"
+  command: shutdown -h 0
+  become: yes
+
+- name: wait for shutdown and test ping
+  wait_for:
+    delay: 5
+    ping:
