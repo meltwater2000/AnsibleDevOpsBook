@@ -1,0 +1,6 @@
+---
+# ch01.yml file
+- hosts: all
+  gather_facts: no
+  roles:
+    - ansible-setup

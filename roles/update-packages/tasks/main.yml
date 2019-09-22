@@ -1,0 +1,8 @@
+---
+# roles/update-packages/tasks/main.yml
+
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+  become: yes

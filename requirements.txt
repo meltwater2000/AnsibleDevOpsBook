@@ -1,4 +1,5 @@
 ansible
+ansible-lint
 boto
 boto3
 paramiko

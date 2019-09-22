@@ -1,0 +1,35 @@
+---
+# roles/ansible-setup/tasks/main.yml
+
+# if you want just_ansible then call the role as follows:
+# - role: ansible-setup
+#   just_ansible: true
+
+- name: install ansible only via pip3
+  pip:
+    name: ansible
+    executable: pip3
+    extra_args: --user
+  when: just_ansible is defined
+
+- name: copy requirements file
+  copy:
+    src: "{{ playbook_dir }}/{{ item }}"
+    dest: "/tmp/{{ item }}"
+  with_items:
+  - requirements.txt
+
+- name: install ansible via pip3
+  pip:
+    requirements: "/tmp/requirements.txt"
+    executable: ~/.local/bin/pip3
+    extra_args: --user
+  when: just_ansible is not defined or just_ansible != true
+
+# Default to local configuration, unless run locally then use aws configuration
+- name: configure ansible
+  copy:
+    src: "{{ playbook_dir }}/{{ config }}"
+    dest: "~/GIT/{{ git_project }}/ansible.cfg"
+  vars:
+    config: "{{ 'ansible_aws.cfg' if ansible_host=='localhost' else 'ansible_local.cfg' }}" 

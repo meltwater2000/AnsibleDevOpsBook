@@ -1,0 +1,19 @@
+---
+# roles/python-setup/tasks/main.yml
+
+- name: install python36
+  yum:
+    name: python36
+    update_cache: yes
+  become: yes
+
+- name: download get-pip.py
+  get_url:
+      url: 'https://bootstrap.pypa.io/get-pip.py'
+      dest: /tmp/get-pip.py
+
+- name: install pip for python3
+  command:
+    cmd: python3 /tmp/get-pip.py --user
+  register: pip_install
+  changed_when: '"existing" not in pip_install.stdout'

@@ -1,0 +1,8 @@
+---
+# setup.yml file
+- hosts: all
+  gather_facts: no
+  roles:
+    - update-packages
+    - git-repo
+    - python-setup

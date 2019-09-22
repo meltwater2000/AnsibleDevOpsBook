@@ -1,0 +1,18 @@
+---
+# roles/git-repo/tasks/main.yml
+
+- name: install git
+  yum:
+    name: git
+    update_cache: yes
+  become: yes
+
+- name: create GIT directory
+  file:
+      path: "~/GIT/{{ git_project }}"
+      state: directory
+
+- name: get git repo files
+  git:
+    repo: "https://{{ git_site }}/{{ git_repo }}/{{ git_project }}.git"
+    dest: "~/GIT/{{ git_project }}"
