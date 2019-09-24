@@ -1,3 +1,6 @@
+---
+# roles/local-ssh/tasks/main.yml
+
 - name: Test for local ssh
   command:
     cmd: timeout 1m ssh localhost "echo success"
