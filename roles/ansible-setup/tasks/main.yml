@@ -4,6 +4,12 @@
 # if you want just_ansible then call the role as follows:
 # - role: ansible-setup
 #   just_ansible: true
+- name: check for required vars
+  fail:
+    msg: "{{ item }} is required"
+  failed_when: item not in vars
+  with_item:
+  - git_project
 
 - name: install ansible only via pip3
   pip:
