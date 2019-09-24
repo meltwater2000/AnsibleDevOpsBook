@@ -1,5 +1,13 @@
 ---
 # roles/git-repo/tasks/main.yml
+- name: check for required vars
+  fail:
+    msg: "{{ item }} is required"
+  failed_when: item not in vars
+  with_item:
+  - git_site
+  - git_repo
+  - git_project
 
 - name: install git
   yum:
