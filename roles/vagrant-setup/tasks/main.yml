@@ -1,0 +1,25 @@
+---
+# roles/vagrant-setup/tasks/main.yml
+
+- name: install vagrant
+  yum:
+    name: ['vagrant']
+    update_cache: yes
+become: yes
+
+# add oracle yum source for virtualbox
+# repo file: http://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo
+# repo key: https://www.virtualbox.org/download/oracle_vbox.asc
+
+# virtualbox 5.2 (v6 may have issues)
+- name: install virtualbox
+  yum:
+    name: ['virtualbox-5.2']
+    update_cache: yes
+become: yes
+
+# /sbin/vboxconfig
+#
+# linux-headers-amd64
+# linux-headers-4.9.0-4-amd64
+
