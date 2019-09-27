@@ -5,22 +5,32 @@
   command:
     cmd: timeout 1m ssh localhost "echo success"
   register: localssh_result
+  failed_when: false
+  changed_when: localssh_result.rc != 0
 
 - block:
   - name: ensure ~/.ssh exists
     file:
       state: directory
       path: ~/.ssh
-      mode: 0644
+      mode: 0744
 
   - name: generate ssh key pair
     openssh_keypair:
-      user: "{{ ansible_user }}"
+      owner: "{{ ansible_user }}"
       path: "~/.ssh/id_rsa"
+      comment: "ansible-generated-localhost-key"
+    register: local_sshkey
 
   - name: add to authorized_keys
     authorized_key:
       user: "{{ ansible_user }}"
-      path: "~/.ssh/id_rsa.pub"
-  when: localssh_result is failed
+      key: "{{ local_sshkey.public_key }}"
+
+  - name: Add localhost to known_hosts
+    known_hosts:
+      name: localhost
+      key: "{{ local_sshkey.public_key }}"
+
+  when: localssh_result.rc != 0
 #block end

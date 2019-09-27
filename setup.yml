@@ -6,3 +6,4 @@
     - update-packages
     - git-repo
     - python-setup
+    - local-ssh
