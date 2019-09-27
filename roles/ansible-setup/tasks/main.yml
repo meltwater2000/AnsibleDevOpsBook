@@ -8,7 +8,7 @@
   fail:
     msg: "{{ item }} is required"
   failed_when: item not in vars
-  with_item:
+  with_items:
   - git_project
 
 - name: install ansible only via pip3

@@ -4,10 +4,10 @@
   fail:
     msg: "{{ item }} is required"
   failed_when: item not in vars
-  with_item:
-  - git_site
-  - git_repo
-  - git_project
+  with_items:
+    - git_site
+    - git_repo
+    - git_project
 
 - name: install git
   yum:
@@ -24,3 +24,4 @@
   git:
     repo: "https://{{ git_site }}/{{ git_repo }}/{{ git_project }}.git"
     dest: "~/GIT/{{ git_project }}"
+  failed_when: false
