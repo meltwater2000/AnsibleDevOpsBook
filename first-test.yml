@@ -1,6 +1,8 @@
 ---
 # first-test.yml file
 - hosts: all
+# If required select hosts with matching tags Project:BookClub
+# - hosts: tag_Project_BookClub
   gather_facts: no
   roles:
     - first-test

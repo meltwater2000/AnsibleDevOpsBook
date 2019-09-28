@@ -7,18 +7,32 @@ NOTE: This repo is a work in progress.
 
 # Intended usage
 This repo can be used in a number of ways.
-1. Run locally on a machine
+1. Run from a local machine to connect to an AWS (centos) instance.
+  The local machine will need Ansible up and running:
   - run `pip3 install -r requirements.txt`
   - replace ansible.cfg with ansible_local.cfg
-
-2. Run from a local machine to connect to an AWS (centos) instance.
+  The local machine will need the following AWS Setup:
   - ensure your instance is running (see start-aws.sh)
   - ensure ansible.cfg matches ansible_aws.cfg (this is the default)
   - ansible-playbook setup.yml (this will fetch this git repo and install python3, pip3 etc)
 
-3. Run from an AWS (centos) instance.
-  - run `pip3 install -r requirements.txt` (if setup.yml hasn't been run)
+2. Run locally on a machine
+  The local machine will need Ansible up and running:
+  - run `pip3 install -r requirements.txt`
   - replace ansible.cfg with ansible_local.cfg
+  Ability to ssh to localhost:
+  - create (if needed) ssh-key pair and add to local authorized_keys
+  - ensure `ssh localhost` works (add to known hosts if requried)
+
+3. Run from an AWS (centos) instance.
+  The local machine will need Ansible up and running:
+  - run `pip3 install -r requirements.txt`
+  - replace ansible.cfg with ansible_local.cfg
+  AWS Setup:
+  - AWS instance setup (see Requires)
+  - ensure your instance is running (see start-aws.sh)
+  - ensure ansible.cfg matches ansible_aws.cfg (this is the default)
+  - ansible-playbook setup.yml (this will fetch this git repo and install python3, pip3 etc)
 
 
 ## Requires
@@ -26,6 +40,7 @@ AWS (centos) Instance:
 Centos Image similar to:
 amzn-ami-hvm-2018.03.0.20190826-x86_64-gp2 "ami-04de2b60dd25fbb2e"
 
+Setup AWS access with the following:
 ~/.aws/.ssh/awsbox.pem - AWS Pem file for ssh to instance
 
 ~/.aws/config:
@@ -41,11 +56,18 @@ output=json
 aws_access_key_id=<AWS-KEY-ID>
 aws_secret_access_key=<AWS-SECRET-KEY>
 ```
+Note: To get a AWS Access Key & Secret you'll need to create additional user via the AWS Concole in AIM.
 
-Get the latest ec2.py inventory script by running:
+Get the latest ec2.py and ec2.ini inventory script by running (or keep the one provided):
 ```
 sh get_ec2_script.sh
 ```
+Note: ec2.ini has been modified to select only instances with tag Project:BookClub
+```
+  all_instances = True
+  instance_filters = tag:Project=BookClub
+```
+This ensures Ansible runs against just those instances.
 
 ## Usage
 ### sh info-aws.sh
