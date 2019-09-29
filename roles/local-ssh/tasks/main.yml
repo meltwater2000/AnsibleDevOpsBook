@@ -1,7 +1,7 @@
 ---
 # roles/local-ssh/tasks/main.yml
 
-- name: Test for local ssh
+- name: test for local ssh
   command:
     cmd: timeout 1m ssh localhost "echo success"
   register: localssh_result
@@ -27,7 +27,7 @@
       user: "{{ ansible_user }}"
       key: "{{ local_sshkey.public_key }}"
 
-  - name: Add localhost to known_hosts
+  - name: add localhost to known_hosts
     known_hosts:
       name: localhost
       key: "{{ local_sshkey.public_key }}"
