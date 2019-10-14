@@ -1,9 +1,9 @@
 ---
 # roles/python-setup/tasks/main.yml
 
-- name: install python36
-  yum:
-    name: python36
+- name: ensure python3 is installed
+  apt:
+    name: python3
     update_cache: yes
   become: yes
 
