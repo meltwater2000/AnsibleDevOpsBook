@@ -1,0 +1,15 @@
+require 'vagrant-aws'
+Vagrant.configure('2') do |config|
+    config.vm.box = 'dummy'
+    config.vm.provider 'aws' do |aws, override|
+      aws.access_key_id = {{ aws_key_id }}
+      aws.secret_access_key = {{ aws_key }}
+      aws.keypair_name = {{ aws_keypair }}
+      aws.instance_type = "t2.micro"
+      aws.region = {{ aws_region }}
+      aws.ami = {{ ami }}
+      aws.security_groups = ['launch-wizard-1']
+      override.ssh.username = {{ ami_username }}
+      override.ssh.private_key_path = {{ aws_keypath }}
+  end
+end
