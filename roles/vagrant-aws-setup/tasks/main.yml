@@ -6,11 +6,16 @@
     url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
     dest: /tmp/vagrant.deb
   vars:
-  - vagrant_version: 2.2.5
+  - vagrant_version: 2.2.6
 
 - block:
   - name: install vagrant
     command: dpkg -i "/tmp/vagrant.deb"
+
+  - name: install vagrant-aws prerequisites
+    apt: #glibc-headers,glibc-devel, kernel-headers
+      name: [ dkms, binutils, gcc, make, patch, libgomp1 ]
+
   become: yes
 # block end
 
@@ -20,9 +25,37 @@
 - name: get vagrant aws dummy box
   command: vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
   register: awsbox
+  changed_when: "'exists' not in awsbox.stderr"
   failed_when: "'exists' not in awsbox.stderr"
+
+- name: Get aws_key_id
+  pause:
+    prompt: "Set aws_key_id"
+  when: aws_key_id is not defined
+  register: aws_key_id_input
+
+- name: Get aws_key
+  pause:
+    prompt: "Set aws_key"
+  when: aws_key is not defined
+  register: aws_key_input
+
+- name: Set aws_key_id fact
+  set_fact:
+    aws_key_id: "{{ aws_key_id_input.user_input }}"
+  when: aws_key_id_input is defined
+
+- name: Set aws_key fact
+  set_fact:
+    aws_key: "{{ aws_key_input.user_input }}"
+  when: aws_key_input is defined
+
+- name: create aws vargrant box directory
+  file:
+    path: ~/aws-demo
+    state: directory
 
 - name: create Vagrant box
   template:
     src: Vagrantfile.j2
-    dest: aws-demo/Vagrantfile
+    dest: ~/aws-demo/Vagrantfile

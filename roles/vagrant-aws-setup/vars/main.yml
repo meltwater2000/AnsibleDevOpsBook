@@ -1,0 +1,8 @@
+---
+aws_keypair: aws-box
+aws_region: eu-west-1
+aws_instance_type: t2.micro
+aws_security_groups: "['launch-wizard-1']"
+ami: ami-02df9ea15c1778c9c
+ami_username: ubuntu
+aws_keypath: ~/.aws/.ssh/awsbox.pem

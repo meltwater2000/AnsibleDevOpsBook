@@ -3,7 +3,7 @@
 
 - name: ensure python3 is installed
   apt:
-    name: python3
+    name: [ python3, python3-distutils ]
     update_cache: yes
   become: yes
 
