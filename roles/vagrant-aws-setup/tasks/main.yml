@@ -31,14 +31,14 @@
 - name: Get aws_key_id
   pause:
     prompt: "Set aws_key_id"
+  register: asw_key_id_input
   when: aws_key_id is not defined
-  register: aws_key_id_input
 
 - name: Get aws_key
   pause:
     prompt: "Set aws_key"
-  when: aws_key is not defined
   register: aws_key_input
+  when: aws_key is not defined
 
 - name: Set aws_key_id fact
   set_fact:
@@ -48,7 +48,7 @@
 - name: Set aws_key fact
   set_fact:
     aws_key: "{{ aws_key_input.user_input }}"
-  when: aws_key_input is defined
+    when: aws_key_input is defined
 
 - name: create aws vargrant box directory
   file:
