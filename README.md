@@ -24,7 +24,7 @@ This repo can be used in a number of ways.
   - create (if needed) ssh-key pair and add to local authorized_keys
   - ensure `ssh localhost` works (add to known hosts if requried)
 
-3. Run from an AWS (centos) instance.
+3. Run from an AWS (ubuntu) instance.
   The local machine will need Ansible up and running:
   - run `pip3 install -r requirements.txt`
   - replace ansible.cfg with ansible_local.cfg
@@ -37,8 +37,11 @@ This repo can be used in a number of ways.
 
 ## Requires
 AWS (centos) Instance:
-Centos Image similar to:
-amzn-ami-hvm-2018.03.0.20190826-x86_64-gp2 "ami-04de2b60dd25fbb2e"
+Ubuntu Image similar to:
+ubuntu-bionic-18.04-amd64-server-20190722.1 "ami-077a5b1762a2dde35"
+
+Security group with SSH access (often created as launch-wizard-1):
+Inbound: SSH TCP 22 0.0.0.0/0 (or with your public ip)
 
 Setup AWS access with the following:
 ~/.aws/.ssh/awsbox.pem - AWS Pem file for ssh to instance
@@ -56,7 +59,7 @@ output=json
 aws_access_key_id=<AWS-KEY-ID>
 aws_secret_access_key=<AWS-SECRET-KEY>
 ```
-Note: To get a AWS Access Key & Secret you'll need to create additional user via the AWS Concole in AIM.
+Note: To get a AWS Access Key & Secret you'll need to create additional user via the AWS Console in AIM.
 
 Get the latest ec2.py and ec2.ini inventory script by running (or keep the one provided):
 ```
@@ -81,7 +84,7 @@ Stops the given instance (if already stopped/stopping will display current statu
 
 ### sh connect.sh <instance-ip-address>
 Allows you to connect to the AWS instance (you will need to use the IP/hostname detailed in info-aws.sh or from previous ansible runs).
-NOTE: Each time your instance is restarted the IP address/hostname may change!
+NOTE: Each time your instance is restarted the IP address/hostname will change!
 
 ## Playbooks
 Run playbook:

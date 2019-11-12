@@ -1,0 +1,17 @@
+---
+# roles/ansible-adhoc-module/tasks/main.yml
+- name: check for required vars
+  fail:
+    msg: "{{ item }} is required"
+  failed_when: item not in vars
+  with_items:
+    - cmd
+
+- name: "run adhoc module - {{ cmd }}"
+  command: "~/.local/bin/ansible localhost -m '{{ cmd }}'"
+  register: cmdout
+  changed_when: false
+
+- name: adhoc module output
+  debug:
+    msg: "Output: \n{{ cmdout.stdout }}"

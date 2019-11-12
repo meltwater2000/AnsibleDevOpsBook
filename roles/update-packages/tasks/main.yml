@@ -2,7 +2,7 @@
 # roles/update-packages/tasks/main.yml
 
 - name: upgrade all packages
-  yum:
+  apt:
     name: '*'
     state: latest
   become: yes

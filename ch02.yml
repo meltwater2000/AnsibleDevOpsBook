@@ -1,0 +1,6 @@
+---
+# ch02.yml file
+- hosts: all
+  gather_facts: no
+  roles:
+    - vagrant-aws-setup
