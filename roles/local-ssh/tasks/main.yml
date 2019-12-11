@@ -27,10 +27,14 @@
       user: "{{ ansible_user }}"
       key: "{{ local_sshkey.public_key }}"
 
-  - name: add localhost to known_hosts
-    known_hosts:
-      name: localhost
-      key: "{{ local_sshkey.public_key }}"
+  - name: create known_hosts (if not present)
+    file:
+      path: ~/.ssh/known_hosts
+      state: touch
+
+  - name: add host to known_hosts
+    shell:
+      cmd: "ssh-keyscan -H localhost >> ~/.ssh/known_hosts"
 
   when: localssh_result.rc != 0
 #block end

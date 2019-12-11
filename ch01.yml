@@ -4,3 +4,5 @@
   gather_facts: no
   roles:
     - ansible-setup
+    - { role: ansible-adhoc, cmd: 'free -m' }
+    - { role: ansible-adhoc-module, cmd: 'ping' }

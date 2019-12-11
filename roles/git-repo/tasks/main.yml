@@ -10,7 +10,7 @@
     - git_project
 
 - name: install git
-  yum:
+  apt:
     name: git
     update_cache: yes
   become: yes
